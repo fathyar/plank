@@ -14,3 +14,13 @@ transparentthemedir = $(pkgdatadir)/themes/Transparent
 dist_transparenttheme_DATA = \
 	Transparent/dock.theme \
 	$(NULL)
+
+catalinalightthemedir = $(pkgdatadir)/themes/Catalina-light
+dist_catalinalighttheme_DATA = \
+	Catalina-light/dock.theme \
+	$(NULL)
+
+catalinadarkthemedir = $(pkgdatadir)/themes/Catalina-dark
+dist_catalinadarktheme_DATA = \
+	Catalina-dark/dock.theme \
+	$(NULL)

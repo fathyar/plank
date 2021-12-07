@@ -1,0 +1,16 @@
+[PlankTheme]
+TopRoundness=6
+OuterStrokeColor=0;;0;;0;;116
+FillStartColor=30;;30;;30;;154
+FillEndColor=50;;50;;50;;154
+InnerStrokeColor=154;;154;;154;;255
+SolidStyleIndicatorColor=255;;255;;255;;200
+
+[PlankDockTheme]
+HorizPadding=1.5
+TopPadding=1.5
+ItemPadding=1.5
+IndicatorSize=3.25
+IconShadowSize=0.5
+ActiveIconGlowingBackground=false
+SolidStyleIndicator=true
