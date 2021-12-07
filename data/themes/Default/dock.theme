@@ -16,6 +16,8 @@ FillStartColor=41;;41;;41;;255
 FillEndColor=80;;80;;80;;255
 #The color (RGBA) of the inner stroke.
 InnerStrokeColor=255;;255;;255;;255
+#The color (RGBA) of the indicator (solid style).
+SolidStyleIndicatorColor=255;;255;;255;;255
 
 [PlankDockTheme]
 #The padding on the left/right dock edges, in tenths of a percent of IconSize.
@@ -64,5 +66,7 @@ ItemMoveTime=450
 CascadeHide=true
 #Whether or not the currently active icon will have glow effect background.
 ActiveIconGlowingBackground=true
+#Prefer alternative style of the indicator (without the glow effect).
+SolidStyleIndicator=false
 #The color (RGBA) of the badge displaying urgent count
 BadgeColor=0;;0;;0;;0

@@ -79,6 +79,9 @@ namespace Plank
 		[Description(nick = "inner-stroke-color", blurb = "The color (RGBA) of the inner stroke.")]
 		public Color InnerStrokeColor { get; set; }
 		
+		[Description(nick = "solid-style-indicator-color", blurb = "The color (RGBA) of the indicator (solid style).")]
+		public Color SolidStyleIndicatorColor { get; set; }
+
 		File? theme_folder;
 		Gtk.StyleContext style_context;
 		
@@ -140,10 +143,11 @@ namespace Plank
 			
 			LineWidth = 1;
 			
-			OuterStrokeColor = { 0.1647, 0.1647, 0.1647, 1.0 };
-			FillStartColor   = { 0.1647, 0.1647, 0.1647, 1.0 };
-			FillEndColor     = { 0.3176, 0.3176, 0.3176, 1.0 };
-			InnerStrokeColor = { 1.0, 1.0, 1.0, 1.0 };
+			OuterStrokeColor         = { 0.1647, 0.1647, 0.1647, 1.0 };
+			FillStartColor           = { 0.1647, 0.1647, 0.1647, 1.0 };
+			FillEndColor             = { 0.3176, 0.3176, 0.3176, 1.0 };
+			InnerStrokeColor         = { 1.0, 1.0, 1.0, 1.0 };
+			SolidStyleIndicatorColor = { 1.0, 1.0, 1.0, 1.0 };
 		}
 		
 		/**
@@ -365,6 +369,9 @@ namespace Plank
 				break;
 			
 			case "InnerStrokeColor":
+				break;
+
+			case "SolidStyleIndicatorColor":
 				break;
 			}
 		}

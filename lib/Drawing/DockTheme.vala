@@ -97,6 +97,9 @@ namespace Plank
 		[Description(nick = "active-icon-glowing-background", blurb = "Whether or not the currently active icon will have glow effect background.")]
 		public bool ActiveIconGlowingBackground { get; set; }
 		
+		[Description(nick = "solid-style-indicator", blurb = "Prefer alternative style of the indicator (without the glow effect).")]
+		public bool SolidStyleIndicator { get; set; }
+		
 		[Description(nick = "badge-color", blurb = "The color (RGBA) of the badge displaying urgent count")]
 		public Color BadgeColor { get; set; }
 
@@ -136,6 +139,7 @@ namespace Plank
 			ItemMoveTime = 450;
 			CascadeHide = true;
 			ActiveIconGlowingBackground = true;
+			SolidStyleIndicator = false;
 			BadgeColor = { 0.0, 0.0, 0.0, 0.0 };
 		}
 		
@@ -245,6 +249,45 @@ namespace Plank
 			return surface;
 		}
 		
+		/**
+		 * Creates a surface for an alternative style (without glow) of the indicator.
+		 *
+		 * @param size the size of the indicator
+		 * @param color the color of the indicator
+		 * @param model existing surface to use as basis of new surface
+		 * @return a new surface with the indicator drawn on it
+		 */
+		public Surface create_solid_style_indicator (int size, Color color, Surface model)
+		{
+			Logger.verbose ("DockTheme.create_solid_style_indicator (size = %i)", size);
+			
+			var surface = new Surface.with_surface (size, size, model);
+			surface.clear ();
+			
+			if (size <= 0)
+				return surface;
+			
+			unowned Cairo.Context cr = surface.Context;
+			
+			var x = size / 2;
+			var y = x;
+			
+			cr.move_to (x, y);
+			cr.arc (x, y, size / 2, 0, Math.PI * 2);
+			cr.close_path ();
+			
+			var rg = new Cairo.Pattern.radial (x, y, 0, x, y, size / 2);
+			rg.add_color_stop_rgba (0, color.red, color.green, color.blue, color.alpha);
+			rg.add_color_stop_rgba (0.3, color.red, color.green, color.blue, color.alpha);
+			rg.add_color_stop_rgba (0.4, color.red, color.green, color.blue, 0);
+			rg.add_color_stop_rgba (1.0, 0, 0, 0, 0);
+			
+			cr.set_source (rg);
+			cr.fill ();
+			
+			return surface;
+		}
+
 		/**
 		 * Creates a surface for an urgent glow.
 		 *
