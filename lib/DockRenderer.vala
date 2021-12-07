@@ -954,7 +954,7 @@ namespace Plank
 			case Gtk.PositionType.BOTTOM:
 				x = item_rect.x + item_rect.width / 2.0 - indicator_surface.Width / 2.0;
 				if (theme.SolidStyleIndicator) {
-					y = item_buffer.Height - indicator_surface.Height / 2.0 - theme.get_bottom_offset () - indicator_surface.Height / 24.0 - theme.BottomPadding * background_rect.height / 16.0 / 2.0 - indicator_surface.Height / 24.0;
+					y = item_buffer.Height - indicator_surface.Height / 2.0 - theme.get_bottom_offset () - indicator_surface.Height / 24.0 - theme.BottomPadding * (background_rect.height - theme.get_top_offset () - theme.get_bottom_offset ()) / 16.0 / 2.0;
 				} else {
 					y = item_buffer.Height - indicator_surface.Height / 2.0 - 2.0 * theme.get_bottom_offset () - indicator_surface.Height / 24.0;
 				}
@@ -962,14 +962,14 @@ namespace Plank
 			case Gtk.PositionType.TOP:
 				x = item_rect.x + item_rect.width / 2.0 - indicator_surface.Width / 2.0;
 				if (theme.SolidStyleIndicator) {
-					y = - indicator_surface.Height / 2.0 + theme.get_bottom_offset () + indicator_surface.Height / 24.0 + theme.BottomPadding * background_rect.height / 16.0 / 2.0 + indicator_surface.Height / 24.0;
+					y = - indicator_surface.Height / 2.0 + theme.get_bottom_offset () + indicator_surface.Height / 24.0 + theme.BottomPadding * (background_rect.height - theme.get_top_offset () - theme.get_bottom_offset ()) / 16.0 / 2.0;
 				} else {
 					y = - indicator_surface.Height / 2.0 + 2.0 * theme.get_bottom_offset () + indicator_surface.Height / 24.0;
 				}
 				break;
 			case Gtk.PositionType.LEFT:
 				if (theme.SolidStyleIndicator) {
-					x = - indicator_surface.Width / 2.0 + theme.get_bottom_offset () + indicator_surface.Width / 24.0 + theme.BottomPadding * background_rect.width / 16.0 / 2.0 + indicator_surface.Width / 24.0;
+					x = - indicator_surface.Width / 2.0 + theme.get_bottom_offset () + indicator_surface.Width / 24.0 + theme.BottomPadding * (background_rect.width - theme.get_top_offset () - theme.get_bottom_offset ()) / 16.0 / 2.0;
 				} else {
 					x = - indicator_surface.Width / 2.0 + 2.0 * theme.get_bottom_offset () + indicator_surface.Width / 24.0;
 				}
@@ -977,7 +977,7 @@ namespace Plank
 				break;
 			case Gtk.PositionType.RIGHT:
 				if (theme.SolidStyleIndicator) {
-					x = item_buffer.Width - indicator_surface.Width / 2.0 - theme.get_bottom_offset () - indicator_surface.Width / 24.0 - theme.BottomPadding * background_rect.width / 16.0 / 2.0 - indicator_surface.Width / 24.0;
+					x = item_buffer.Width - indicator_surface.Width / 2.0 - theme.get_bottom_offset () - indicator_surface.Width / 24.0 - theme.BottomPadding * (background_rect.width - theme.get_top_offset () - theme.get_bottom_offset ()) / 16.0 / 2.0;
 				} else {
 					x = item_buffer.Width - indicator_surface.Width / 2.0 - 2.0 * theme.get_bottom_offset () - indicator_surface.Width / 24.0;
 				}

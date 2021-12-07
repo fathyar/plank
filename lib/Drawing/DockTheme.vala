@@ -279,8 +279,10 @@ namespace Plank
 			var rg = new Cairo.Pattern.radial (x, y, 0, x, y, size / 2);
 			rg.add_color_stop_rgba (0, color.red, color.green, color.blue, color.alpha);
 			rg.add_color_stop_rgba (0.3, color.red, color.green, color.blue, color.alpha);
-			rg.add_color_stop_rgba (0.4, color.red, color.green, color.blue, 0);
-			rg.add_color_stop_rgba (1.0, 0, 0, 0, 0);
+			rg.add_color_stop_rgba (0.35, color.red, color.green, color.blue, color.alpha * 0.6);
+			rg.add_color_stop_rgba (0.4, color.red, color.green, color.blue, color.alpha * 0.25);
+			rg.add_color_stop_rgba (0.45, color.red, color.green, color.blue, 0);
+			rg.add_color_stop_rgba (1.0, color.red, color.green, color.blue, 0);
 			
 			cr.set_source (rg);
 			cr.fill ();
