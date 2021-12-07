@@ -62,5 +62,7 @@ UrgentHueShift=150
 ItemMoveTime=450
 #Whether background and icons will unhide/hide with different speeds. The top-border of both will leave/hit the screen-edge at the same time.
 CascadeHide=true
+#Whether or not the currently active icon will have glow effect background.
+ActiveIconGlowingBackground=true
 #The color (RGBA) of the badge displaying urgent count
 BadgeColor=0;;0;;0;;0

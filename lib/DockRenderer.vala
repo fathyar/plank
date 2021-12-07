@@ -809,7 +809,8 @@ namespace Plank
 			if ((item.State & ItemState.ACTIVE) == 0)
 				opacity = 1 - opacity;
 			if (opacity > 0) {
-				theme.draw_active_glow (item_buffer, background_rect, draw_value.background_region, item.AverageIconColor, opacity, position);
+				if (theme.ActiveIconGlowingBackground)
+					theme.draw_active_glow (item_buffer, background_rect, draw_value.background_region, item.AverageIconColor, opacity, position);
 			}
 			
 			// draw the icon

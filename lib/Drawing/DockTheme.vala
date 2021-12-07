@@ -94,6 +94,9 @@ namespace Plank
 		[Description(nick = "cascade-hide", blurb = "Whether background and icons will unhide/hide with different speeds. The top-border of both will leave/hit the screen-edge at the same time.")]
 		public bool CascadeHide { get; set; }
 		
+		[Description(nick = "active-icon-glowing-background", blurb = "Whether or not the currently active icon will have glow effect background.")]
+		public bool ActiveIconGlowingBackground { get; set; }
+		
 		[Description(nick = "badge-color", blurb = "The color (RGBA) of the badge displaying urgent count")]
 		public Color BadgeColor { get; set; }
 
@@ -132,6 +135,7 @@ namespace Plank
 			UrgentHueShift = 150;
 			ItemMoveTime = 450;
 			CascadeHide = true;
+			ActiveIconGlowingBackground = true;
 			BadgeColor = { 0.0, 0.0, 0.0, 0.0 };
 		}
 		
