@@ -952,18 +952,58 @@ namespace Plank
 			default:
 			case Gtk.PositionType.BOTTOM:
 				x = item_rect.x + item_rect.width / 2.0 - indicator_surface.Width / 2.0;
-				y = item_buffer.Height - theme.get_bottom_offset () - indicator_surface.Height;
+				switch (theme.IndicatorStyle) {
+					default:
+					case IndicatorStyleType.LEGACY:
+					case IndicatorStyleType.GLOW:
+					case IndicatorStyleType.LINE:
+						y = item_buffer.Height - theme.get_bottom_offset () - indicator_surface.Height;
+					break;
+					case IndicatorStyleType.CIRCLE:
+						y = item_buffer.Height - theme.get_bottom_offset () - indicator_surface.Height - 0.25 * position_manager.BottomPadding + ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+					break;
+				}
 				break;
 			case Gtk.PositionType.TOP:
 				x = item_rect.x + item_rect.width / 2.0 - indicator_surface.Width / 2.0;
-				y = theme.get_bottom_offset ();
+				switch (theme.IndicatorStyle) {
+					default:
+					case IndicatorStyleType.LEGACY:
+					case IndicatorStyleType.GLOW:
+					case IndicatorStyleType.LINE:
+						y = theme.get_bottom_offset ();
+					break;
+					case IndicatorStyleType.CIRCLE:
+						y = theme.get_bottom_offset () + 0.25 * position_manager.BottomPadding - ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+					break;
+				}
 				break;
 			case Gtk.PositionType.LEFT:
-				x = theme.get_bottom_offset ();
+				switch (theme.IndicatorStyle) {
+					default:
+					case IndicatorStyleType.LEGACY:
+					case IndicatorStyleType.GLOW:
+					case IndicatorStyleType.LINE:
+						x = theme.get_bottom_offset ();
+					break;
+					case IndicatorStyleType.CIRCLE:
+						x = theme.get_bottom_offset () + 0.25 * position_manager.BottomPadding - ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+					break;
+				}
 				y = item_rect.y + item_rect.height / 2.0 - indicator_surface.Height / 2.0;
 				break;
 			case Gtk.PositionType.RIGHT:
-				x = item_buffer.Width - theme.get_bottom_offset () - indicator_surface.Width;
+				switch (theme.IndicatorStyle) {
+					default:
+					case IndicatorStyleType.LEGACY:
+					case IndicatorStyleType.GLOW:
+					case IndicatorStyleType.LINE:
+						x = item_buffer.Width - theme.get_bottom_offset () - indicator_surface.Width;
+					break;
+					case IndicatorStyleType.CIRCLE:
+						x = item_buffer.Width - theme.get_bottom_offset () - indicator_surface.Width - 0.25 * position_manager.BottomPadding + ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+					break;
+				}
 				y = item_rect.y + item_rect.height / 2.0 - indicator_surface.Height / 2.0;
 				break;
 			}
