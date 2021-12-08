@@ -40,8 +40,14 @@ namespace Plank
 		[Description(nick = "item-padding", blurb = "The padding between items on the dock, in tenths of a percent of IconSize.")]
 		public double ItemPadding { get; set; }
 		
+		[Description(nick = "indicator-color", blurb = "The color (RGBA) of the indicator.")]
+		public Color IndicatorColor { get; set; }
+		
 		[Description(nick = "indicator-size", blurb = "The size of item indicators, in tenths of a percent of IconSize.")]
 		public double IndicatorSize { get; set; }
+		
+		[Description(nick = "indicator-style", blurb = "The style of item indicators, styles: circle-glow, circle-color-glow, circle, underline.")]
+		public IndicatorStyleType IndicatorStyle { get; set; }
 		
 		[Description(nick = "icon-shadow-size", blurb = "The size of the icon-shadow behind every item, in tenths of a percent of IconSize.")]
 		public double IconShadowSize { get; set; }
@@ -97,6 +103,12 @@ namespace Plank
 		[Description(nick = "badge-color", blurb = "The color (RGBA) of the badge displaying urgent count")]
 		public Color BadgeColor { get; set; }
 
+		[Description(nick = "selection-style", blurb = "Whether an item has an active background glow. If not, active-item-color (RGBA) will be used instead.")]
+		public SelectionStyleType SelectionStyle { get; set; }
+		
+		[Description(nick = "selection-color", blurb = "The color (RGBA) of the active item background.")]
+		public Color SelectionColor { get; set; }
+		
 		public DockTheme (string name)
 		{
 			base.with_name (name);
@@ -114,7 +126,9 @@ namespace Plank
 			TopPadding = -11.0;
 			BottomPadding = 2.5;
 			ItemPadding = 2.5;
+			IndicatorColor = { 1.0, 1.0, 1.0, 1.0 };
 			IndicatorSize = 5.0;
+			IndicatorStyle = IndicatorStyleType.LEGACY;
 			IconShadowSize = 1.0;
 			UrgentBounceHeight = 5.0 / 3.0;
 			LaunchBounceHeight = 0.625;
@@ -133,6 +147,8 @@ namespace Plank
 			ItemMoveTime = 450;
 			CascadeHide = true;
 			BadgeColor = { 0.0, 0.0, 0.0, 0.0 };
+			SelectionColor = { 0.0, 0.0, 0.0, 1.0 };
+			SelectionStyle = SelectionStyleType.LEGACY;
 		}
 		
 		/**
@@ -242,6 +258,112 @@ namespace Plank
 		}
 		
 		/**
+		 * Creates a surface of an indicator for the given states.
+		 *
+		 * @param indicator_state the state of indicator
+		 * @param item_state the state of item
+		 * @param icon_size the size of icons
+		 * @param color the color of the indicator
+		 * @param position the position of the dock
+		 * @param model existing surface to use as basis of new surface
+		 * @return a new surface with the indicator drawn on it
+		 */
+		public Surface create_indicator_for_state (IndicatorState indicator_state, ItemState item_state, int icon_size,
+			Gtk.PositionType position, Surface model)
+		{
+			double width = icon_size;
+			double height = icon_size / 3.0 + get_bottom_offset ();
+			var size = (int) (IndicatorSize * icon_size / 10.0);
+			
+			Logger.verbose ("DockTheme.create_indicator (width = %i, height = %i, state = [%i,%i])", (int) width, (int) height, indicator_state, item_state);
+			
+			var surface = new Surface.with_surface ((int) width, (int) height, model);
+			surface.clear ();
+			
+			if (width <= 0 || height <= 0 || size <= 0 || indicator_state == IndicatorState.NONE)
+				return surface;
+			
+			Color color;
+			if ((item_state & ItemState.URGENT) != 0) {
+				color = (IndicatorStyle == IndicatorStyleType.LEGACY ? get_styled_color () : IndicatorColor);
+				color.add_hue (UrgentHueShift);
+				color.set_sat (1.0);
+			} else {
+				if (IndicatorStyle == IndicatorStyleType.LEGACY) {
+					color = get_styled_color ();
+					color.set_min_sat (0.4);
+				} else {
+					color = IndicatorColor;
+				}
+			}
+			
+			unowned Cairo.Context cr = surface.Context;
+			cr.save ();
+			cr.set_line_width (1.0);
+			
+			switch (IndicatorStyle) {
+			default:
+			case IndicatorStyleType.LEGACY:
+			case IndicatorStyleType.GLOW:
+				var x = 0.0;
+				var y = Math.round (height - size / 12.0 - get_bottom_offset ());
+				
+				for (var i = 0; i < indicator_state; i++) {
+					x = Math.round (width / 2.0 + (2.0 * i - (indicator_state - 1)) * size / 8.0);
+					
+					cr.move_to (x, y);
+					cr.arc (x, y, height / 2, 0, Math.PI * 2);
+					cr.close_path ();
+					
+					var rg = new Cairo.Pattern.radial (x, y, 0, x, y, size / 2);
+					rg.add_color_stop_rgba (0, 1, 1, 1, 1);
+					rg.add_color_stop_rgba (0.1, color.red, color.green, color.blue, 1);
+					rg.add_color_stop_rgba (0.2, color.red, color.green, color.blue, 0.6);
+					rg.add_color_stop_rgba (0.25, color.red, color.green, color.blue, 0.25);
+					rg.add_color_stop_rgba (0.5, color.red, color.green, color.blue, 0.15);
+					rg.add_color_stop_rgba (1.0, color.red, color.green, color.blue, 0.0);
+					
+					cr.set_source (rg);
+					cr.fill ();
+				}
+				break;
+			case IndicatorStyleType.CIRCLE:
+				var x = 0.0;
+				var y = Math.round (height - size / 1.666 - get_bottom_offset ());
+				
+				for (var i = 0; i < indicator_state; i++) {
+					x = Math.round (width / 2.0 + (2.0 * i - (indicator_state - 1)) * size / 1.2);
+					
+					cr.move_to (x, y);
+					cr.arc (x, y, size / 2, 0, Math.PI * 2);
+					cr.close_path ();
+					
+					cr.set_source_rgba (color.red, color.green, color.blue, color.alpha);
+					cr.stroke_preserve ();
+					cr.fill ();
+				}
+				break;
+			case IndicatorStyleType.LINE:
+				var x = Math.round (icon_size / 10.0);
+				var y = Math.round (height - size - get_bottom_offset () - icon_size / 30.0);
+				width = Math.round (width - icon_size / 5.0);
+				
+				cr.rectangle (x, y, width, size);
+				cr.set_source_rgba (color.red, color.green, color.blue, color.alpha);
+				cr.stroke_preserve ();
+				cr.fill ();
+				break;
+			}
+			
+			cr.restore ();
+			
+			if (position != Gtk.PositionType.BOTTOM)
+				surface = rotate_for_position ((owned) surface, position);
+			
+			return surface;
+		}
+		
+		/**
 		 * Creates a surface for an urgent glow.
 		 *
 		 * @param size the size of the urgent glow
@@ -343,12 +465,17 @@ namespace Plank
 			
 			cr.set_line_width (LineWidth);
 			cr.clip ();
-
-			gradient.add_color_stop_rgba (0, color.red, color.green, color.blue, 0);
-			gradient.add_color_stop_rgba (1, color.red, color.green, color.blue, 0.6 * opacity);
 			
 			cr.rectangle (rect.x, rect.y, rect.width, rect.height);
-			cr.set_source (gradient);
+			
+			if (SelectionStyle == SelectionStyleType.LEGACY) {
+				gradient.add_color_stop_rgba (0, color.red, color.green, color.blue, 0);
+				gradient.add_color_stop_rgba (1, color.red, color.green, color.blue, 0.6 * opacity);
+				cr.set_source (gradient);
+			} else {
+				cr.set_source_rgba (color.red, color.green, color.blue, color.alpha * opacity);
+			}
+			
 			cr.fill ();
 			
 			cr.reset_clip ();
@@ -565,11 +692,21 @@ namespace Plank
 					IndicatorSize = MAX_INDICATOR_SIZE;
 				break;
 			
+			case "IndicatorStyle":
+				if (IndicatorStyle < 0 || IndicatorStyle > 3)
+					IndicatorStyle = IndicatorStyleType.LEGACY;
+				break;
+			
 			case "IconShadowSize":
 				if (IconShadowSize < 0)
 					IconShadowSize = 0;
 				else if (IconShadowSize > MAX_ICON_SHADOW_SIZE)
 					IconShadowSize = MAX_ICON_SHADOW_SIZE;
+				break;
+			
+			case "SelectionStyle":
+				if (SelectionStyle < 0 || SelectionStyle > 2)
+					SelectionStyle = SelectionStyleType.LEGACY;
 				break;
 			
 			case "UrgentBounceHeight":
@@ -649,6 +786,56 @@ namespace Plank
 			case "BadgeColor":
 				break;
 			}
+		}
+		
+		static Surface rotate_for_position (owned Surface surface, Gtk.PositionType position)
+		{
+			if (position == Gtk.PositionType.BOTTOM)
+				return surface;
+			
+			Surface result;
+			var width = surface.Width;
+			var height = surface.Height;
+			var rotate = 0.0;
+			
+			if (position == Gtk.PositionType.TOP)
+				result = new Surface.with_surface (width, height, surface);
+			else
+				result = new Surface.with_surface (height, width, surface);
+			
+			unowned Cairo.Context cr = result.Context;
+			
+			switch (position) {
+			case Gtk.PositionType.TOP:
+				rotate = Math.PI;
+				break;
+			case Gtk.PositionType.LEFT:
+				rotate = Math.PI_2;
+				break;
+			case Gtk.PositionType.RIGHT:
+				rotate = -Math.PI_2;
+				break;
+			default:
+				assert_not_reached ();
+			}
+			
+			cr.save ();
+			cr.translate (result.Width / 2.0, result.Height / 2.0);
+			cr.rotate (rotate);
+			cr.translate (- width / 2.0, - height / 2.0);
+			cr.set_source_surface (surface.Internal, 0.0, 0.0);
+			cr.paint ();
+			cr.restore ();
+			
+			return result;
+		}
+		
+		Color get_styled_color ()
+		{
+			unowned Gtk.StyleContext context = get_style_context ();
+			var color = (Color) context.get_background_color (context.get_state ());
+			color.set_min_val (90 / (double) uint16.MAX);
+			return color;
 		}
 	}
 }
