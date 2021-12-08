@@ -329,7 +329,7 @@ namespace Plank
 				break;
 			case IndicatorStyleType.CIRCLE:
 				var x = 0.0;
-				var y = Math.round (height - size / 1.666 - get_bottom_offset ());
+				var y = Math.round (height - size / 1.5 - get_bottom_offset ());
 				
 				for (var i = 0; i < indicator_state; i++) {
 					x = Math.round (width / 2.0 + (2.0 * i - (indicator_state - 1)) * size / 1.2);
