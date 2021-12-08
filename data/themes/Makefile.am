@@ -19,3 +19,13 @@ glowlessthemedir = $(pkgdatadir)/themes/Glowless
 dist_glowlesstheme_DATA = \
 	Glowless/dock.theme \
 	$(NULL)
+
+catalinalightthemedir = $(pkgdatadir)/themes/Catalina-light
+dist_catalinalighttheme_DATA = \
+	Catalina-light/dock.theme \
+	$(NULL)
+
+catalinadarkthemedir = $(pkgdatadir)/themes/Catalina-dark
+dist_catalinadarktheme_DATA = \
+	Catalina-dark/dock.theme \
+	$(NULL)
