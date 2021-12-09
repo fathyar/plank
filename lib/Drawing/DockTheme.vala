@@ -271,9 +271,19 @@ namespace Plank
 		public Surface create_indicator_for_state (IndicatorState indicator_state, ItemState item_state, int icon_size,
 			Gtk.PositionType position, Surface model)
 		{
-			double width = icon_size;
-			double height = icon_size / 3.0 + get_bottom_offset ();
+			double width, height = 0.0;
 			var size = (int) (IndicatorSize * icon_size / 10.0);
+
+			switch (IndicatorStyle) {
+				default:
+					width = icon_size;
+					height = icon_size / 3.0 + get_bottom_offset ();
+					break;
+				case IndicatorStyleType.CIRCLE:
+					width = model.Width;
+					height = model.Height;
+					break;
+			}
 			
 			Logger.verbose ("DockTheme.create_indicator (width = %i, height = %i, state = [%i,%i])", (int) width, (int) height, indicator_state, item_state);
 			
