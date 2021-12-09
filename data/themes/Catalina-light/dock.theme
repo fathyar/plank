@@ -9,11 +9,12 @@ InnerStrokeColor=225;;225;;225;;255
 [PlankDockTheme]
 HorizPadding=1
 TopPadding=1.5
-BottomPadding=3
+BottomPadding=2.75
 ItemPadding=1.75
 IndicatorColor=0;;0;;0;;200
 IndicatorSize=1.15
 IndicatorStyle=2
 IconShadowSize=0.125
+BadgeColor=220;;80;;60;;0
 SelectionStyle=1
 SelectionColor=0;;0;;0;;0
