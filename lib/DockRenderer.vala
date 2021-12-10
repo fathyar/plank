@@ -960,7 +960,7 @@ namespace Plank
 						y = item_buffer.Height - theme.get_bottom_offset () - indicator_surface.Height;
 					break;
 					case IndicatorStyleType.CIRCLE:
-						y = item_buffer.Height - theme.get_bottom_offset () - indicator_surface.Height - 0.25 * position_manager.BottomPadding + ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+						y = item_buffer.Height - theme.get_bottom_offset () - indicator_surface.Height - 0.1 * position_manager.BottomPadding + ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
 					break;
 				}
 				break;
@@ -974,7 +974,7 @@ namespace Plank
 						y = theme.get_bottom_offset ();
 					break;
 					case IndicatorStyleType.CIRCLE:
-						y = theme.get_bottom_offset () + 0.25 * position_manager.BottomPadding - ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+						y = theme.get_bottom_offset () + 0.1 * position_manager.BottomPadding - ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
 					break;
 				}
 				break;
@@ -987,7 +987,7 @@ namespace Plank
 						x = theme.get_bottom_offset ();
 					break;
 					case IndicatorStyleType.CIRCLE:
-						x = theme.get_bottom_offset () + 0.25 * position_manager.BottomPadding - ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+						x = theme.get_bottom_offset () + 0.1 * position_manager.BottomPadding - ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
 					break;
 				}
 				y = item_rect.y + item_rect.height / 2.0 - indicator_surface.Height / 2.0;
@@ -1001,7 +1001,7 @@ namespace Plank
 						x = item_buffer.Width - theme.get_bottom_offset () - indicator_surface.Width;
 					break;
 					case IndicatorStyleType.CIRCLE:
-						x = item_buffer.Width - theme.get_bottom_offset () - indicator_surface.Width - 0.25 * position_manager.BottomPadding + ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
+						x = item_buffer.Width - theme.get_bottom_offset () - indicator_surface.Width - 0.1 * position_manager.BottomPadding + ( theme.BottomRoundness > 0 ? theme.get_bottom_offset () : 0 );
 					break;
 				}
 				y = item_rect.y + item_rect.height / 2.0 - indicator_surface.Height / 2.0;
