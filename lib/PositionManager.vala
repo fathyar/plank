@@ -815,6 +815,7 @@ namespace Plank
 				//         value. The center is 100%. (1 - offset_percent) == 0,1 distance from center
 				// The .66 value comes from the area under the curve.  Dont ask me to explain it too much because it's too clever for me.
 				
+				// for external drags with no zoom, we pretend there is actually a zoom of 200%
 				if (expand_for_drop && zoom_in_percent == 1)
 					offset *= zoom_in_progress / 2.0;
 				else
@@ -1091,7 +1092,7 @@ namespace Plank
 		{
 			unowned DockRenderer renderer = controller.renderer;
 			var cursor = renderer.local_cursor;
-			var offset = (int) ((renderer.zoom_in_progress * ZoomIconSize + ItemPadding) / 2.0);
+			var offset = (int) ((renderer.zoom_in_progress * ZoomIconSize + ItemPadding) / ZoomPercent);
 			
 			return get_nearest_item_at (cursor.x + offset, cursor.y + offset, container);
 		}
