@@ -439,7 +439,7 @@ namespace Plank
 				height -= top_offset;
 			
 			// height of the dock window
-			var dock_height = (controller.prefs.ZoomEnabled ? ZoomIconSize : IconSize) + top_offset + bottom_offset + (screen_is_composited ? UrgentBounceHeight : 0);
+			var dock_height = (controller.prefs.ZoomEnabled ? ZoomIconSize : IconSize) + top_offset + bottom_offset + (screen_is_composited ? (UrgentBounceHeight >= LaunchBounceHeight ? UrgentBounceHeight : LaunchBounceHeight ) : 0);
 			
 			var width = 0;
 			switch (Alignment) {
