@@ -363,8 +363,8 @@ namespace Plank
 			TopPadding    = (int) (theme.TopPadding    * scaled_icon_size);
 			BottomPadding = (int) (theme.BottomPadding * scaled_icon_size);
 			ItemPadding   = (int) (theme.ItemPadding   * scaled_icon_size);
-			UrgentBounceHeight = (int) (theme.UrgentBounceHeight * ZoomIconSize);
-			LaunchBounceHeight = (int) (theme.LaunchBounceHeight * ZoomIconSize);
+			UrgentBounceHeight = (int) (theme.UrgentBounceHeight * IconSize);
+			LaunchBounceHeight = (int) (theme.LaunchBounceHeight * IconSize);
 			LineWidth     = theme.LineWidth;
 			
 			if (!screen_is_composited) {
