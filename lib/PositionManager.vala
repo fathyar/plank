@@ -393,8 +393,6 @@ namespace Plank
 			
 			ZoomPercent = (screen_is_composited ? prefs.ZoomPercent / 100.0 : 1.0);
 			ZoomIconSize = (screen_is_composited && prefs.ZoomEnabled ? (int) Math.round (IconSize * ZoomPercent) : IconSize);
-
-			update (controller.renderer.theme);
 		}
 		
 		/**
